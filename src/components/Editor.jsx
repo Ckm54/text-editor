@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AtomicBlockUtils, EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -51,33 +51,33 @@ const TextEditor = () => {
     });
   };
 
-  const handleEditorDrop = async (e) => {
-    e.preventDefault();
-    if (e.dataTransfer.files.length > 0) {
-      const file = e.dataTransfer.files[0];
-      if (file.type.startsWith("image")) {
-        const newFile = await uploadImageCallback(file);
-        const entityData = {
-          src: newFile.data.link,
-          height: newFile.data?.metadata?.height || "320px",
-          width: newFile.data?.metadata?.width || "320px",
-        };
-        const entityKey = editorState
-          .getCurrentContent()
-          .createEntity("IMAGE", "MUTABLE", entityData)
-          .getLastCreatedEntityKey();
-        const newEditorState = AtomicBlockUtils.insertAtomicBlock(
-          editorState,
-          entityKey,
-          " "
-        );
-        setEditorState(newEditorState);
-      }
-    }
-  };
+  // const handleEditorDrop = async (e) => {
+  //   e.preventDefault();
+  //   if (e.dataTransfer.files.length > 0) {
+  //     const file = e.dataTransfer.files[0];
+  //     if (file.type.startsWith("image")) {
+  //       const newFile = await uploadImageCallback(file);
+  //       const entityData = {
+  //         src: newFile.data.link,
+  //         height: newFile.data?.metadata?.height || "320px",
+  //         width: newFile.data?.metadata?.width || "320px",
+  //       };
+  //       const entityKey = editorState
+  //         .getCurrentContent()
+  //         .createEntity("IMAGE", "MUTABLE", entityData)
+  //         .getLastCreatedEntityKey();
+  //       const newEditorState = AtomicBlockUtils.insertAtomicBlock(
+  //         editorState,
+  //         entityKey,
+  //         " "
+  //       );
+  //       setEditorState(newEditorState);
+  //     }
+  //   }
+  // };
 
   return (
-    <div onDrop={handleEditorDrop}>
+    <div>
       <Editor
         editorState={editorState}
         wrapperClassName="editor-wrapper"
